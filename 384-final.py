@@ -20,9 +20,13 @@ cave = {
     12: [4, 9, 11]
 }
 
-pit_rooms = random.sample(list(cave.keys()), 2)
-bat_rooms = random.sample([room for room in cave if room not in pit_rooms], 2)
-wumpus_room = random.choice([room for room in cave if room not in pit_rooms and room not in bat_rooms])
+# Make sure Room 1 is safe
+available_rooms = [room for room in cave if room != 1]
+
+# Randomly select rooms for pits, bats, and Wumpus (avoiding Room 1)
+pit_rooms = random.sample(available_rooms, 2)
+bat_rooms = random.sample([room for room in available_rooms if room not in pit_rooms], 2)
+wumpus_room = random.choice([room for room in available_rooms if room not in pit_rooms and room not in bat_rooms])
 
 #player starting room
 current_room = 1
@@ -40,3 +44,17 @@ for room, connections in cave.items():
     print(f"Room {room} connects to {connections} - {' & '.join(details) if details else 'Empty'}")
 
 print(f"\nYou start in Room {current_room}.\n")
+
+
+while True:
+    # Check if the player is in a dangerous room
+    if current_room in pit_rooms:
+        print("\nYou fell into a bottomelss pit! GAME OVER.")
+        break
+    elif current_room in bat_rooms:
+        print("\n A super bat took you too a random room!")
+        current_room = random.choice(available_rooms)
+        continue
+    elif current_room == wumpus_room:
+        print("\nThe Wumpus saw you and killed you! GAME OVER.")
+        break
