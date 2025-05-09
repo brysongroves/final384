@@ -46,6 +46,16 @@ for room, connections in cave.items():
 
 print(f"\nYou start in Room {current_room}.\n")
 
+def move_wumpus(wumpus_room):
+    rand = random.randint(1,4)
+    if rand > 4:  # 75% chance the Wumpus moves
+        new_room = random.choice(cave[wumpus_room])
+        print(f"\nYou hear a distant roar as the Wumpus moves from Room {wumpus_room} to Room {new_room}...")
+        return new_room
+    return wumpus_room
+
+
+
 
 while True:
     
