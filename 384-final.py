@@ -21,3 +21,22 @@ cave = {
 }
 
 pit_rooms = random.sample(list(cave.keys()), 2)
+bat_rooms = random.sample([room for room in cave if room not in pit_rooms], 2)
+wumpus_room = random.choice([room for room in cave if room not in pit_rooms and room not in bat_rooms])
+
+#player starting room
+current_room = 1
+
+
+print("Cave Layout:")
+for room, connections in cave.items():
+    details = []
+    if room in pit_rooms:
+        details.append("Bottomless Pit")
+    if room in bat_rooms:
+        details.append("Super Bats")
+    if room == wumpus_room:
+        details.append("Wumpus")
+    print(f"Room {room} connects to {connections} - {' & '.join(details) if details else 'Empty'}")
+
+print(f"\nYou start in Room {current_room}.\n")
