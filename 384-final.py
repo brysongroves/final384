@@ -33,7 +33,7 @@ current_room = 1
 arrows = 5
 
 
-print("Cave Layout:")
+
 for room, connections in cave.items():
     details = []
     if room in pit_rooms:
@@ -42,7 +42,7 @@ for room, connections in cave.items():
         details.append("Super Bats")
     if room == wumpus_room:
         details.append("Wumpus")
-    print(f"Room {room} connects to {connections} - {' & '.join(details) if details else 'Empty'}")
+    
 
 print(f"\nYou start in Room {current_room}.\n")
 
