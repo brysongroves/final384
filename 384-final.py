@@ -58,3 +58,17 @@ while True:
     elif current_room == wumpus_room:
         print("\nThe Wumpus saw you and killed you! GAME OVER.")
         break
+    
+    #shows the possible exits of current room
+    print(f"\nYou are in Room {current_room}. Exits lead to: {cave[current_room]}")
+    
+    while True:
+        try:
+            next_room = int(input("Enter the room number you want to move to: "))
+            if next_room in cave[current_room]:
+                current_room = next_room
+                break
+            else:
+                print(f"Room {next_room} is not connected to Room {current_room}. Try again.")
+        except ValueError:
+            print("Invalid input. Please enter a valid room number.")
