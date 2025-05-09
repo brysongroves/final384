@@ -7,7 +7,7 @@ import random
 from unittest.mock import patch
 
 # Import the move_wumpus function
-from 384-final.py import move_wumpus, cave
+from final-384.py import move_wumpus, cave
 
 class TestHuntTheWumpus(unittest.TestCase):
 
