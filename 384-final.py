@@ -47,6 +47,23 @@ print(f"\nYou start in Room {current_room}.\n")
 
 
 while True:
+    
+    nearby_rooms = cave[current_room]
+    warnings = []
+
+    for room in nearby_rooms:
+        if room in pit_rooms:
+            warnings.append("I feel a draft.")
+        if room in bat_rooms:
+            warnings.append("Bats nearby.")
+        if room == wumpus_room:
+            warnings.append("I smell the wumpus.")
+
+    # Print all the warnings, but avoid duplicates
+    for warning in set(warnings):
+        print(warning)
+        
+        
     # Check if the player is in a dangerous room
     if current_room in pit_rooms:
         print("\nYou fell into a bottomelss pit! GAME OVER.")
