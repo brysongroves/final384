@@ -28,8 +28,9 @@ pit_rooms = random.sample(available_rooms, 2)
 bat_rooms = random.sample([room for room in available_rooms if room not in pit_rooms], 2)
 wumpus_room = random.choice([room for room in available_rooms if room not in pit_rooms and room not in bat_rooms])
 
-#player starting room
+#player starting room & arrow count
 current_room = 1
+arrows = 5
 
 
 print("Cave Layout:")
@@ -79,13 +80,60 @@ while True:
     #shows the possible exits of current room
     print(f"\nYou are in Room {current_room}. Exits lead to: {cave[current_room]}")
     
-    while True:
-        try:
-            next_room = int(input("Enter the room number you want to move to: "))
-            if next_room in cave[current_room]:
-                current_room = next_room
-                break
-            else:
-                print(f"Room {next_room} is not connected to Room {current_room}. Try again.")
-        except ValueError:
-            print("Invalid input. Please enter a valid room number.")
+    action = input("Shoot, Move, or Quit (S-M-Q)? ").strip().lower()
+    
+    if action == "m":
+    
+        while True:
+            try:
+                next_room = int(input("Enter the room number you want to move to: "))
+                if next_room in cave[current_room]:
+                    current_room = next_room
+                    break
+                else:
+                    print(f"Room {next_room} is not connected to Room {current_room}. Try again.")
+            except ValueError:
+                print("Invalid input. Please enter a valid room number.")
+
+    elif action == "s":
+        if arrows > 0:
+            try:
+                # Ask how far to shoot
+                distance = int(input("How many rooms do you want to shoot through? (1-5) "))
+                if 1 <= distance <= 5:
+                    # Start the arrow in the current room
+                    arrow_room = current_room
+                    
+                    # Fire the arrow through the chosen number of rooms
+                    for _ in range(distance):
+                        
+                        #Choose a random connected room for the next step
+                        arrow_room = random.choice(cave[arrow_room])
+                        
+                        # Check if the arrow hits the player
+                        if arrow_room == current_room:
+                            print("\nYour arrow hit yourself! GAME OVER.")
+                            exit(0)
+                        if arrow_room == wumpus_room:
+                            print("\nYour arrow hit the Wumpus! YOU WIN")
+                            exit(0)
+                        
+            
+
+                    print("\nYour arrow didn't hit anything.")
+                    arrows -= 1
+                    print(f"You have {arrows} arrows left.")
+                else:
+                    print("You can only shoot through 1 to 5 rooms.")
+            except ValueError:
+                print("Invalid input. Please enter a number between 1 and 5.")
+    elif action == "q":
+        print(f"You chose to quit, coward.")
+        exit(0)
+    
+    else:
+        print("Invalid choice. Please enter M to move, S to shoot, or Q to quit")
+        
+    if arrows == 0:
+        print("\nYou ran out of arrows! GAME OVER.")
+        break
